@@ -20,11 +20,9 @@ const Leaderboard = () => {
         setError(null)
         const response = await fetch('https://n8n-p.blc.am/webhook/game-leaders', {
           method: 'GET',
-          mode: 'cors',
           headers: {
             'Accept': 'application/json'
-          },
-          cache: 'no-cache'
+          }
         })
 
         if (!response.ok) {

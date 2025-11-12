@@ -91,11 +91,9 @@ const Pools = () => {
         setTopPoolsLoading(true)
         const response = await fetch('https://n8n-p.blc.am/webhook/game-pools', {
           method: 'GET',
-          mode: 'cors',
           headers: {
             'Accept': 'application/json'
-          },
-          cache: 'no-cache'
+          }
         })
         
         if (!response.ok) {
