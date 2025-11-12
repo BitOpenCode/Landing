@@ -32,9 +32,16 @@ jobs:
         run: npm ci
       
       - name: Build
-        run: npm run build
-        env:
-          NODE_ENV: production
+        run: |
+          export NODE_ENV=production
+          npm run build
+      
+      - name: Check build output
+        run: |
+          echo "Build output contents:"
+          ls -la dist/
+          echo "Checking index.html:"
+          cat dist/index.html | head -20
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
