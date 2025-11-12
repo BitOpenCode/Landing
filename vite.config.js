@@ -24,6 +24,6 @@ export default defineConfig({
     },
     outDir: 'dist',
   },
-  base: '/Landing/',
+  base: process.env.NODE_ENV === 'production' ? '/Landing/' : '/',
 })
 
