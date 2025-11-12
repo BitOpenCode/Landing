@@ -690,18 +690,50 @@ button { cursor: pointer; }
 
 /* Sidebar */
 
+/* Navbar - Horizontal Top Menu */
+.navbar { 
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important; 
+    height: 70px !important; 
+    background: linear-gradient(180deg, var(--body-color) 0%, hsl(var(--hue-color), 19%, 7%) 100%) !important;
+    border-bottom: 1px solid var(--box-color) !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5) !important;
+    z-index: 1000 !important;
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.navbar .nav {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: 2rem;
+}
+
+/* Legacy sidebar - полностью скрыт */
 .sidebar { 
-    position: fixed; 
-    width: 100px; 
-    height: 100vh; 
-    background: linear-gradient(180deg, var(--body-color) 0%, hsl(var(--hue-color), 19%, 7%) 100%);
-    border-right: 1px solid var(--box-color);
-    backdrop-filter: blur(20px);
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
 }
 
 /* Вертикальный ползунок для sidebar - видимый слева (меньшего размера) */
@@ -874,7 +906,7 @@ button { cursor: pointer; }
     top: 2rem;
     font-size: 1.2rem;
     border-radius: .25rem;
-    background-color: var(--skin-color);
+    background-color: transparent !important;
     color: var(--title-color);
     display: none;
     justify-content: center;
@@ -926,7 +958,10 @@ button { cursor: pointer; }
 
 /* Main - Home */
 
-.main { margin-left: 100px; }
+.main { 
+    margin-left: 0 !important; 
+    padding-top: 70px !important; /* Отступ для фиксированного navbar */
+}
 .home { background: none; background-size: cover; background-position: center center; height: 100vh; padding-top: 0; scroll-margin-top: 0; }
 .home-container { position: relative; height: 100%; align-items: center; }
 .home-data { position: absolute; top: 20%; left: 60px; }
@@ -1443,7 +1478,6 @@ button { cursor: pointer; }
 .timeline-text { font-size: var(--smaller-font-size); margin-bottom: var(--mb1); }
 .timeline-date { display: flex; align-items: center; column-gap: .4rem; font-size: var(--normal-font-size); color: var(--skin-color); }
 
-/* Main - Skills */ 
 
 .skills-container { grid-template-columns: 360px 320px; column-gap: 3rem; justify-content: center; }
 .skills-header { display: flex; align-items: center; cursor: pointer; }
@@ -1463,7 +1497,6 @@ button { cursor: pointer; }
 .skills [data-content] { display: none; }
     .skills-active[data-content] { display: block; }
 
-/* Main - Work */ 
 
 .work-container { grid-template-columns: repeat(3, 330px); gap: 1.8rem; justify-content: center; padding-top: 1rem; }
 .work-filters { display: flex; justify-content: center; align-items: center; column-gap: .75rem; margin-bottom: 2rem; }
@@ -1506,7 +1539,6 @@ button { cursor: pointer; }
     .details-info li span { font-weight: normal; }
     .details-info li a { text-transform: lowercase; color: var(--skin-color); }
 
-/* Main - Services */ 
 
 .services-container { grid-template-columns: repeat(3, 250px); justify-content: center; column-gap: 1.8rem; }
 .services-content { position: relative; background-color: var(--box-color); padding: 6rem 0 2rem 2.5rem; border-radius: .25rem; }
@@ -1542,7 +1574,7 @@ button { cursor: pointer; }
 .services-modal-icon { color: var(--skin-color); font-size: 1.1rem; }
 .services-modal-info { font-size: var(--small-font-size); }
 
-/* Main - Testimonials */
+
 
 @media screen and (min-width: 992px) {
     .testimonials-container { width: 750px; margin-left: auto !important; margin-right: auto !important; }
@@ -1632,7 +1664,7 @@ textarea.input { padding: 0.8rem 1.2rem; min-height: 140px; border-radius: .5rem
             .input-container.focus label { top: 0; transform: translateY(-50%); left: 25px; font-size: var(--smaller-font-size); }
                 .input-container.focus span::before, .input-container.focus span::after  { width: 50%; opacity: 1; }
 
-/* Footer */
+
 
 .footer { padding-top: 2rem; }
 .footer-container { grid-template-columns: repeat(3, 1fr); column-gap: 1.6rem; }
@@ -1660,7 +1692,6 @@ textarea.input { padding: 0.8rem 1.2rem; min-height: 140px; border-radius: .5rem
         .footer-copy a:hover { color: var(--skin-color); }
     .footer-title, .footer-subtitle, .footer-links, .footer-social, .footer-copy a { color: var(--title-color); }
 
-/* Media Queries */
 
 @media screen and (max-width: 1408px) {
     .container { margin-left: var(--mb25); margin-right: var(--mb25); }
@@ -1796,7 +1827,6 @@ textarea.input { padding: 0.8rem 1.2rem; min-height: 140px; border-radius: .5rem
     .services-content { padding-right: 3.5rem; }
 }
 
-/* 3D Keypad Styles */
 .keypad {
     position: absolute;
     top: 38%;

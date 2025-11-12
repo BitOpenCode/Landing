@@ -1,0 +1,56 @@
+-- ============================================
+-- SQL ЗАПРОС ДЛЯ N8N POSTGRES NODE
+-- ============================================
+-- Этот SQL запрос должен быть вставлен в ноду "Postgres" в n8n
+-- перед нодой "Code"
+--
+-- Предполагаемая структура таблицы:
+-- - users или avatars (таблица пользователей)
+-- - Поле с количеством ASIC (например: asic_count, total_asics, и т.д.)
+--
+-- ВАРИАНТ 1: Если ASIC хранятся в отдельной таблице
+-- SELECT 
+--   u.id as user_id,
+--   u.username,
+--   u.avatar_url,
+--   COUNT(a.id) as asic_count
+-- FROM users u
+-- LEFT JOIN asics a ON a.user_id = u.id
+-- WHERE u.status = 'active' -- или другой фильтр
+-- GROUP BY u.id, u.username, u.avatar_url
+-- HAVING COUNT(a.id) > 0
+-- ORDER BY asic_count DESC;
+
+-- ВАРИАНТ 2: Если количество ASIC хранится напрямую в таблице пользователей
+-- SELECT 
+--   id as user_id,
+--   username,
+--   avatar_url,
+--   asic_count,
+--   -- другие поля по необходимости
+--   total_xpbtc_mined,
+--   level
+-- FROM users
+-- WHERE asic_count > 0
+--   AND status = 'active' -- или другой фильтр
+-- ORDER BY asic_count DESC;
+
+-- ВАРИАНТ 3: Если используется таблица avatars
+-- SELECT 
+--   a.id as user_id,
+--   a.username,
+--   a.avatar_url,
+--   COUNT(asic.id) as asic_count
+-- FROM avatars a
+-- LEFT JOIN asics asic ON asic.avatar_id = a.id
+-- WHERE a.status = 'active'
+-- GROUP BY a.id, a.username, a.avatar_url
+-- HAVING COUNT(asic.id) > 0
+-- ORDER BY asic_count DESC;
+
+-- ПРИМЕЧАНИЕ: 
+-- - Замените названия таблиц и полей на реальные из вашей БД
+-- - Убедитесь, что поле с количеством ASIC называется правильно
+-- - Добавьте необходимые фильтры (status, active, и т.д.)
+-- - Code node автоматически вычислит Th = asic_count * 234
+
