@@ -33,7 +33,6 @@ const Leaderboard = () => {
 
         const data = await response.json()
         console.log('📊 Получены данные лидерборда:', data)
-        console.log('📊 Тип данных:', typeof data, 'Является массивом:', Array.isArray(data))
 
         // Обработка разных форматов ответа
         let leaderboardData = []
