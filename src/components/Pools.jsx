@@ -89,7 +89,10 @@ const Pools = () => {
     const fetchTopPools = async () => {
       try {
         setTopPoolsLoading(true)
+        console.log('🔄 Начинаю загрузку пулов...')
+        
         const response = await fetch('https://n8n-p.blc.am/webhook/game-pools')
+        console.log('📡 Ответ получен, статус:', response.status, response.statusText)
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)

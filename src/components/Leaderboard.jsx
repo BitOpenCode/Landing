@@ -18,7 +18,10 @@ const Leaderboard = () => {
       try {
         setLoading(true)
         setError(null)
+        console.log('🔄 Начинаю загрузку лидерборда...')
+        
         const response = await fetch('https://n8n-p.blc.am/webhook/game-leaders')
+        console.log('📡 Ответ получен, статус:', response.status, response.statusText)
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
@@ -26,6 +29,7 @@ const Leaderboard = () => {
 
         const data = await response.json()
         console.log('📊 Получены данные лидерборда:', data)
+        console.log('📊 Тип данных:', typeof data, 'Является массивом:', Array.isArray(data))
 
         // Обработка разных форматов ответа
         let leaderboardData = []
@@ -47,6 +51,14 @@ const Leaderboard = () => {
             // Если весь массив - это массив игроков
             leaderboardData = data
             console.log('✅ Формат: массив игроков напрямую')
+          }
+        } else if (data && typeof data === 'object') {
+          // Попробуем найти leaderboard в любом месте объекта
+          if (data.json && data.json.leaderboard && Array.isArray(data.json.leaderboard)) {
+            leaderboardData = data.json.leaderboard
+            console.log('✅ Формат: data.json.leaderboard')
+          } else {
+            console.warn('⚠️ Неизвестный формат данных:', data)
           }
         } else {
           console.warn('⚠️ Неизвестный формат данных:', data)
