@@ -18,12 +18,7 @@ const Leaderboard = () => {
       try {
         setLoading(true)
         setError(null)
-        const response = await fetch('https://n8n-p.blc.am/webhook/game-leaders', {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          }
-        })
+        const response = await fetch('https://n8n-p.blc.am/webhook/game-leaders')
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)

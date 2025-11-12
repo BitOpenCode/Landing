@@ -89,12 +89,7 @@ const Pools = () => {
     const fetchTopPools = async () => {
       try {
         setTopPoolsLoading(true)
-        const response = await fetch('https://n8n-p.blc.am/webhook/game-pools', {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          }
-        })
+        const response = await fetch('https://n8n-p.blc.am/webhook/game-pools')
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
