@@ -4,9 +4,12 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import './styles/css.css'
 
+// Определяем basename только для production на GitHub Pages
+const basename = import.meta.env.PROD ? '/Landing' : ''
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/Landing">
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
