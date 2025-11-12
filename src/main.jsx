@@ -6,7 +6,7 @@ import './styles/css.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/Landing">
       <App />
     </BrowserRouter>
   </React.StrictMode>,
