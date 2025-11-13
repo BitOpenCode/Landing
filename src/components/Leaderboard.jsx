@@ -116,98 +116,6 @@ const Leaderboard = () => {
           <h3>Compete with Top Miners and Climb the Rankings</h3>
           <p>See where you stand among the best players in the game and compete for monthly rewards.</p>
           
-          {/* Информационные карточки */}
-          {!loading && (
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-              gap: '1rem', 
-              marginTop: '2rem',
-              marginBottom: '2rem'
-            }}>
-              <div className="feature-card" style={{ padding: '1.5rem' }}>
-                <span className="glow"></span>
-                <h4 style={{ 
-                  color: 'var(--title-color)', 
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
-                  🎯 How to Join
-                </h4>
-                <ul style={{ 
-                  listStyle: 'none', 
-                  padding: 0, 
-                  margin: 0,
-                  color: 'var(--text-color)',
-                  lineHeight: '1.8'
-                }}>
-                  <li style={{ marginBottom: '0.5rem' }}>• Acquire ASIC miners in the game</li>
-                  <li style={{ marginBottom: '0.5rem' }}>• Build your mining infrastructure</li>
-                  <li style={{ marginBottom: '0.5rem' }}>• Increase your total hashrate (Th/s)</li>
-                  <li>• Top 10 miners by hashrate appear here</li>
-                </ul>
-              </div>
-              
-              <div className="feature-card" style={{ padding: '1.5rem' }}>
-                <span className="glow"></span>
-                <h4 style={{ 
-                  color: 'var(--title-color)', 
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
-                  🏆 Rewards
-                </h4>
-                <ul style={{ 
-                  listStyle: 'none', 
-                  padding: 0, 
-                  margin: 0,
-                  color: 'var(--text-color)',
-                  lineHeight: '1.8'
-                }}>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>🥇 1st Place:</span> Exclusive rewards & recognition
-                  </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: '#C0C0C0', fontWeight: 'bold' }}>🥈 2nd Place:</span> Premium bonuses
-                  </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: '#CD7F32', fontWeight: 'bold' }}>🥉 3rd Place:</span> Special prizes
-                  </li>
-                  <li>Monthly leaderboard resets with new rewards</li>
-                </ul>
-              </div>
-              
-              <div className="feature-card" style={{ padding: '1.5rem' }}>
-                <span className="glow"></span>
-                <h4 style={{ 
-                  color: 'var(--title-color)', 
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
-                  📊 Rankings
-                </h4>
-                <ul style={{ 
-                  listStyle: 'none', 
-                  padding: 0, 
-                  margin: 0,
-                  color: 'var(--text-color)',
-                  lineHeight: '1.8'
-                }}>
-                  <li style={{ marginBottom: '0.5rem' }}>• Rankings update in real-time</li>
-                  <li style={{ marginBottom: '0.5rem' }}>• Based on total hashrate (Th/s)</li>
-                  <li style={{ marginBottom: '0.5rem' }}>• Hashrate = ASIC Count × 234 Th</li>
-                  <li>• Compete to climb the leaderboard!</li>
-                </ul>
-              </div>
-            </div>
-          )}
-          
           {/* Статистика */}
           {!loading && !error && leaderboard.length > 0 && (
             <div style={{ 
@@ -473,6 +381,100 @@ const Leaderboard = () => {
                     })}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          )}
+
+          {/* Информационные карточки - под лидербордом */}
+          {!loading && !error && leaderboard.length > 0 && (
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+              gap: '1rem', 
+              marginTop: '2rem'
+            }}>
+              <div className="feature-card" style={{ padding: '1rem' }}>
+                <span className="glow"></span>
+                <h4 className="card-title" style={{ 
+                  fontSize: '0.9rem',
+                  marginBottom: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  🎯 How to Join
+                </h4>
+                <ul style={{ 
+                  listStyle: 'none', 
+                  padding: 0, 
+                  margin: 0,
+                  color: 'var(--text-color)',
+                  fontSize: '0.85rem',
+                  lineHeight: '1.6'
+                }}>
+                  <li style={{ marginBottom: '0.4rem' }}>• Acquire ASIC miners in the game</li>
+                  <li style={{ marginBottom: '0.4rem' }}>• Build your mining infrastructure</li>
+                  <li style={{ marginBottom: '0.4rem' }}>• Increase your total hashrate (Th/s)</li>
+                  <li>• Top 10 miners by hashrate appear here</li>
+                </ul>
+              </div>
+              
+              <div className="feature-card" style={{ padding: '1rem' }}>
+                <span className="glow"></span>
+                <h4 className="card-title" style={{ 
+                  fontSize: '0.9rem',
+                  marginBottom: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  🏆 Rewards
+                </h4>
+                <ul style={{ 
+                  listStyle: 'none', 
+                  padding: 0, 
+                  margin: 0,
+                  color: 'var(--text-color)',
+                  fontSize: '0.85rem',
+                  lineHeight: '1.6'
+                }}>
+                  <li style={{ marginBottom: '0.4rem' }}>
+                    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>🥇 1st:</span> Exclusive rewards
+                  </li>
+                  <li style={{ marginBottom: '0.4rem' }}>
+                    <span style={{ color: '#C0C0C0', fontWeight: 'bold' }}>🥈 2nd:</span> Premium bonuses
+                  </li>
+                  <li style={{ marginBottom: '0.4rem' }}>
+                    <span style={{ color: '#CD7F32', fontWeight: 'bold' }}>🥉 3rd:</span> Special prizes
+                  </li>
+                  <li>Monthly leaderboard resets</li>
+                </ul>
+              </div>
+              
+              <div className="feature-card" style={{ padding: '1rem' }}>
+                <span className="glow"></span>
+                <h4 className="card-title" style={{ 
+                  fontSize: '0.9rem',
+                  marginBottom: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  📊 Rankings
+                </h4>
+                <ul style={{ 
+                  listStyle: 'none', 
+                  padding: 0, 
+                  margin: 0,
+                  color: 'var(--text-color)',
+                  fontSize: '0.85rem',
+                  lineHeight: '1.6'
+                }}>
+                  <li style={{ marginBottom: '0.4rem' }}>• Rankings update in real-time</li>
+                  <li style={{ marginBottom: '0.4rem' }}>• Based on total hashrate (Th/s)</li>
+                  <li style={{ marginBottom: '0.4rem' }}>• Hashrate = ASIC × 234 Th</li>
+                  <li>• Compete to climb the leaderboard!</li>
+                </ul>
               </div>
             </div>
           )}
