@@ -116,6 +116,98 @@ const Leaderboard = () => {
           <h3>Compete with Top Miners and Climb the Rankings</h3>
           <p>See where you stand among the best players in the game and compete for monthly rewards.</p>
           
+          {/* Информационные карточки */}
+          {!loading && (
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+              gap: '1rem', 
+              marginTop: '2rem',
+              marginBottom: '2rem'
+            }}>
+              <div className="feature-card" style={{ padding: '1.5rem' }}>
+                <span className="glow"></span>
+                <h4 style={{ 
+                  color: 'var(--title-color)', 
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  🎯 How to Join
+                </h4>
+                <ul style={{ 
+                  listStyle: 'none', 
+                  padding: 0, 
+                  margin: 0,
+                  color: 'var(--text-color)',
+                  lineHeight: '1.8'
+                }}>
+                  <li style={{ marginBottom: '0.5rem' }}>• Acquire ASIC miners in the game</li>
+                  <li style={{ marginBottom: '0.5rem' }}>• Build your mining infrastructure</li>
+                  <li style={{ marginBottom: '0.5rem' }}>• Increase your total hashrate (Th/s)</li>
+                  <li>• Top 10 miners by hashrate appear here</li>
+                </ul>
+              </div>
+              
+              <div className="feature-card" style={{ padding: '1.5rem' }}>
+                <span className="glow"></span>
+                <h4 style={{ 
+                  color: 'var(--title-color)', 
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  🏆 Rewards
+                </h4>
+                <ul style={{ 
+                  listStyle: 'none', 
+                  padding: 0, 
+                  margin: 0,
+                  color: 'var(--text-color)',
+                  lineHeight: '1.8'
+                }}>
+                  <li style={{ marginBottom: '0.5rem' }}>
+                    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>🥇 1st Place:</span> Exclusive rewards & recognition
+                  </li>
+                  <li style={{ marginBottom: '0.5rem' }}>
+                    <span style={{ color: '#C0C0C0', fontWeight: 'bold' }}>🥈 2nd Place:</span> Premium bonuses
+                  </li>
+                  <li style={{ marginBottom: '0.5rem' }}>
+                    <span style={{ color: '#CD7F32', fontWeight: 'bold' }}>🥉 3rd Place:</span> Special prizes
+                  </li>
+                  <li>Monthly leaderboard resets with new rewards</li>
+                </ul>
+              </div>
+              
+              <div className="feature-card" style={{ padding: '1.5rem' }}>
+                <span className="glow"></span>
+                <h4 style={{ 
+                  color: 'var(--title-color)', 
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  📊 Rankings
+                </h4>
+                <ul style={{ 
+                  listStyle: 'none', 
+                  padding: 0, 
+                  margin: 0,
+                  color: 'var(--text-color)',
+                  lineHeight: '1.8'
+                }}>
+                  <li style={{ marginBottom: '0.5rem' }}>• Rankings update in real-time</li>
+                  <li style={{ marginBottom: '0.5rem' }}>• Based on total hashrate (Th/s)</li>
+                  <li style={{ marginBottom: '0.5rem' }}>• Hashrate = ASIC Count × 234 Th</li>
+                  <li>• Compete to climb the leaderboard!</li>
+                </ul>
+              </div>
+            </div>
+          )}
+          
           {/* Статистика */}
           {!loading && !error && leaderboard.length > 0 && (
             <div style={{ 
@@ -149,15 +241,38 @@ const Leaderboard = () => {
             </div>
           )}
           
-          {/* Таблица лидерборда */}
+          {/* Скелетоны загрузки */}
           {loading && (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '3rem',
-              color: 'var(--text-color)',
-              opacity: 0.7
-            }}>
-              Loading leaderboard...
+            <div style={{ marginTop: '2rem' }}>
+              <div className="feature-card">
+                <span className="glow"></span>
+                <h4 className="card-title" style={{ marginBottom: '1.5rem' }}>
+                  TOP 10 Miners by Hashrate
+                </h4>
+                <div style={{ padding: '1rem' }}>
+                  {[...Array(10)].map((_, i) => (
+                    <div 
+                      key={i}
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: '60px 1fr 120px 120px',
+                        gap: '1rem',
+                        padding: '1rem',
+                        marginBottom: '0.5rem',
+                        borderRadius: '0.5rem',
+                        background: 'linear-gradient(90deg, rgba(255, 111, 0, 0.1) 0%, rgba(255, 111, 0, 0.05) 50%, rgba(255, 111, 0, 0.1) 100%)',
+                        backgroundSize: '200% 100%',
+                        animation: 'skeleton-loading 1.5s ease-in-out infinite'
+                      }}
+                    >
+                      <div style={{ height: '24px', background: 'rgba(255, 111, 0, 0.2)', borderRadius: '4px' }}></div>
+                      <div style={{ height: '24px', background: 'rgba(255, 111, 0, 0.2)', borderRadius: '4px' }}></div>
+                      <div style={{ height: '24px', background: 'rgba(255, 111, 0, 0.2)', borderRadius: '4px' }}></div>
+                      <div style={{ height: '24px', background: 'rgba(255, 111, 0, 0.2)', borderRadius: '4px' }}></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
@@ -234,25 +349,48 @@ const Leaderboard = () => {
                       const medalColor = getMedalColor(player.rank)
                       const isTopThree = player.rank <= 3
                       
+                      // Вычисляем процент от лидера для прогресс-бара
+                      const topPlayerTh = leaderboard[0]?.th || 1
+                      const playerTh = player.th || 0
+                      const percentageFromTop = Math.round((playerTh / topPlayerTh) * 100)
+                      
+                      // Градиенты для топ-3
+                      const getGradient = (rank) => {
+                        if (rank === 1) return 'linear-gradient(135deg, rgba(255, 215, 0, 0.25) 0%, rgba(255, 215, 0, 0.1) 50%, rgba(255, 215, 0, 0.05) 100%)'
+                        if (rank === 2) return 'linear-gradient(135deg, rgba(192, 192, 192, 0.25) 0%, rgba(192, 192, 192, 0.1) 50%, rgba(192, 192, 192, 0.05) 100%)'
+                        if (rank === 3) return 'linear-gradient(135deg, rgba(205, 127, 50, 0.25) 0%, rgba(205, 127, 50, 0.1) 50%, rgba(205, 127, 50, 0.05) 100%)'
+                        return 'transparent'
+                      }
+                      
                       return (
                         <tr 
                           key={index}
                           style={{ 
                             borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                            transition: 'background 0.2s ease',
-                            background: isTopThree ? `linear-gradient(90deg, ${medalColor}15 0%, transparent 100%)` : 'transparent'
+                            transition: 'all 0.3s ease',
+                            background: getGradient(player.rank),
+                            boxShadow: isTopThree ? `0 0 20px ${medalColor}20` : 'none'
                           }}
-                          onMouseEnter={(e) => e.currentTarget.style.background = isTopThree 
-                            ? `linear-gradient(90deg, ${medalColor}25 0%, rgba(255, 111, 0, 0.1) 100%)`
-                            : 'rgba(255, 111, 0, 0.05)'}
-                          onMouseLeave={(e) => e.currentTarget.style.background = isTopThree 
-                            ? `linear-gradient(90deg, ${medalColor}15 0%, transparent 100%)`
-                            : 'transparent'}
+                          onMouseEnter={(e) => {
+                            if (isTopThree) {
+                              e.currentTarget.style.background = `linear-gradient(135deg, ${medalColor}35 0%, ${medalColor}15 50%, rgba(255, 111, 0, 0.1) 100%)`
+                              e.currentTarget.style.transform = 'scale(1.01)'
+                              e.currentTarget.style.boxShadow = `0 0 30px ${medalColor}40`
+                            } else {
+                              e.currentTarget.style.background = 'rgba(255, 111, 0, 0.08)'
+                              e.currentTarget.style.transform = 'scale(1.005)'
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = getGradient(player.rank)
+                            e.currentTarget.style.transform = 'scale(1)'
+                            e.currentTarget.style.boxShadow = isTopThree ? `0 0 20px ${medalColor}20` : 'none'
+                          }}
                         >
                           <td style={{ padding: '1rem', fontWeight: 'bold', color: medalColor || 'var(--skin-color)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                               {isTopThree && (
-                                <span style={{ fontSize: '1.2rem' }}>
+                                <span style={{ fontSize: '1.2rem', animation: 'pulse 2s ease-in-out infinite' }}>
                                   {player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : '🥉'}
                                 </span>
                               )}
@@ -270,7 +408,8 @@ const Leaderboard = () => {
                                     height: '32px',
                                     borderRadius: '50%',
                                     objectFit: 'cover',
-                                    border: isTopThree ? `2px solid ${medalColor}` : '2px solid rgba(255, 111, 0, 0.3)'
+                                    border: isTopThree ? `2px solid ${medalColor}` : '2px solid rgba(255, 111, 0, 0.3)',
+                                    boxShadow: isTopThree ? `0 0 10px ${medalColor}50` : 'none'
                                   }}
                                 />
                               ) : (
@@ -278,14 +417,15 @@ const Leaderboard = () => {
                                   width: '32px',
                                   height: '32px',
                                   borderRadius: '50%',
-                                  background: 'rgba(255, 111, 0, 0.2)',
+                                  background: isTopThree ? `${medalColor}30` : 'rgba(255, 111, 0, 0.2)',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
                                   fontSize: '0.9rem',
                                   fontWeight: 'bold',
-                                  color: 'var(--skin-color)',
-                                  border: isTopThree ? `2px solid ${medalColor}` : '2px solid rgba(255, 111, 0, 0.3)'
+                                  color: isTopThree ? medalColor : 'var(--skin-color)',
+                                  border: isTopThree ? `2px solid ${medalColor}` : '2px solid rgba(255, 111, 0, 0.3)',
+                                  boxShadow: isTopThree ? `0 0 10px ${medalColor}50` : 'none'
                                 }}>
                                   {(player.username || 'U')[0].toUpperCase()}
                                 </div>
@@ -298,8 +438,35 @@ const Leaderboard = () => {
                           <td style={{ padding: '1rem', textAlign: 'right' }}>
                             {formatNumber(player.asic_count || 0)}
                           </td>
-                          <td style={{ padding: '1rem', textAlign: 'right', fontWeight: 'bold', color: medalColor || 'var(--skin-color)' }}>
-                            {formatNumber(player.th || 0)}
+                          <td style={{ padding: '1rem', textAlign: 'right' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.25rem' }}>
+                              <span style={{ fontWeight: 'bold', color: medalColor || 'var(--skin-color)' }}>
+                                {formatNumber(player.th || 0)}
+                              </span>
+                              {/* Прогресс-бар */}
+                              <div style={{
+                                width: '100px',
+                                height: '4px',
+                                background: 'rgba(255, 255, 255, 0.1)',
+                                borderRadius: '2px',
+                                overflow: 'hidden',
+                                position: 'relative'
+                              }}>
+                                <div style={{
+                                  width: `${percentageFromTop}%`,
+                                  height: '100%',
+                                  background: isTopThree 
+                                    ? `linear-gradient(90deg, ${medalColor}, ${medalColor}80)`
+                                    : 'linear-gradient(90deg, var(--skin-color), rgba(255, 111, 0, 0.6))',
+                                  borderRadius: '2px',
+                                  transition: 'width 0.5s ease',
+                                  boxShadow: isTopThree ? `0 0 8px ${medalColor}60` : '0 0 4px rgba(255, 111, 0, 0.4)'
+                                }}></div>
+                              </div>
+                              <span style={{ fontSize: '0.75rem', opacity: 0.7, color: 'var(--text-color)' }}>
+                                {percentageFromTop}% от лидера
+                              </span>
+                            </div>
                           </td>
                         </tr>
                       )
