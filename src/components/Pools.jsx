@@ -86,12 +86,32 @@ const Pools = () => {
 
   // Получение данных о топ пулах через вебхук
   useEffect(() => {
+    let isMounted = true // Флаг для проверки, что компонент еще смонтирован
+    
     const fetchTopPools = async () => {
       try {
+        if (!isMounted) return
+        
         setTopPoolsLoading(true)
         console.log('🔄 Начинаю загрузку пулов...')
         
-        const response = await fetch('https://n8n-p.blc.am/webhook/game-pools')
+        // Создаем AbortController для таймаута (30 секунд)
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => {
+          controller.abort()
+          console.warn('⏱️ Таймаут запроса к вебхуку game-pools (30 секунд)')
+        }, 30000)
+        
+        const response = await fetch('https://n8n-p.blc.am/webhook/game-pools', {
+          signal: controller.signal,
+          method: 'GET',
+          cache: 'no-cache'
+        })
+        
+        clearTimeout(timeoutId)
+        
+        if (!isMounted) return
+        
         console.log('📡 Ответ получен, статус:', response.status, response.statusText)
         
         if (!response.ok) {
@@ -167,16 +187,31 @@ const Pools = () => {
           setTopPools([])
         }
       } catch (error) {
-        console.error('❌ Ошибка при получении данных о пулах:', error)
+        if (!isMounted) return
+        
+        if (error.name === 'AbortError') {
+          console.error('❌ Запрос к вебхуку пулов прерван по таймауту (30 секунд)')
+          setError('Request timeout. Please try again later.')
+        } else {
+          console.error('❌ Ошибка при получении данных о пулах:', error)
+          setError(error.message || 'Failed to fetch pools data')
+        }
         setTopPools([])
       } finally {
-        setTopPoolsLoading(false)
+        if (isMounted) {
+          setTopPoolsLoading(false)
+        }
       }
     }
 
-    // Загружаем данные только при монтировании компонента (перезагрузка страницы)
+    // Выполняем запрос только один раз при монтировании компонента
     fetchTopPools()
-  }, [])
+    
+    // Cleanup функция - отменяем запрос при размонтировании
+    return () => {
+      isMounted = false
+    }
+  }, []) // Пустой массив зависимостей = выполняется только один раз при монтировании
 
   // Данные о пулах - организованы по категориям
   const poolsData = [

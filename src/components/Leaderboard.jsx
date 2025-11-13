@@ -14,13 +14,33 @@ const Leaderboard = () => {
 
   // Получение данных лидерборда через вебхук
   useEffect(() => {
+    let isMounted = true // Флаг для проверки, что компонент еще смонтирован
+    
     const fetchLeaderboard = async () => {
       try {
+        if (!isMounted) return
+        
         setLoading(true)
         setError(null)
         console.log('🔄 Начинаю загрузку лидерборда...')
         
-        const response = await fetch('https://n8n-p.blc.am/webhook/game-leaders')
+        // Создаем AbortController для таймаута (30 секунд)
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => {
+          controller.abort()
+          console.warn('⏱️ Таймаут запроса к вебхуку game-leaders (30 секунд)')
+        }, 30000)
+        
+        const response = await fetch('https://n8n-p.blc.am/webhook/game-leaders', {
+          signal: controller.signal,
+          method: 'GET',
+          cache: 'no-cache'
+        })
+        
+        clearTimeout(timeoutId)
+        
+        if (!isMounted) return
+        
         console.log('📡 Ответ получен, статус:', response.status, response.statusText)
 
         if (!response.ok) {
@@ -77,8 +97,14 @@ const Leaderboard = () => {
       }
     }
 
+    // Выполняем запрос только один раз при монтировании компонента
     fetchLeaderboard()
-  }, [])
+    
+    // Cleanup функция - отменяем запрос при размонтировании
+    return () => {
+      isMounted = false
+    }
+  }, []) // Пустой массив зависимостей = выполняется только один раз при монтировании
 
   return (
     <section className="content-section section" id="leaderboard">
