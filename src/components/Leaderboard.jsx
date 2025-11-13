@@ -146,17 +146,6 @@ const Leaderboard = () => {
                 </div>
                 <div style={{ color: 'var(--text-color)', opacity: 0.8 }}>Avg Hashrate (Th/s)</div>
               </div>
-              {lastUpdate && (
-                <div className="feature-card" style={{ padding: '1.5rem' }}>
-                  <span className="glow"></span>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--text-color)', opacity: 0.8, marginBottom: '0.5rem' }}>
-                    Last Update
-                  </div>
-                  <div style={{ fontSize: '1rem', fontWeight: 'bold', color: 'var(--title-color)' }}>
-                    {lastUpdate.toLocaleTimeString()}
-                  </div>
-                </div>
-              )}
             </div>
           )}
           
