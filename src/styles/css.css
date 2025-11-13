@@ -5044,7 +5044,7 @@ textarea.input { padding: 0.8rem 1.2rem; min-height: 140px; border-radius: .5rem
     
     /* Статистические карточки */
     #leaderboard .content-wrapper > div[style*="gridTemplateColumns"]:first-of-type {
-        gridTemplateColumns: '1fr' !important;
+        grid-template-columns: 1fr !important;
         gap: 0.75rem !important;
     }
     
@@ -5058,7 +5058,7 @@ textarea.input { padding: 0.8rem 1.2rem; min-height: 140px; border-radius: .5rem
     
     /* Информационные карточки под лидербордом */
     #leaderboard .content-wrapper > div[style*="gridTemplateColumns"]:last-of-type {
-        gridTemplateColumns: '1fr' !important;
+        grid-template-columns: 1fr !important;
         gap: 0.75rem !important;
     }
     
@@ -5068,16 +5068,16 @@ textarea.input { padding: 0.8rem 1.2rem; min-height: 140px; border-radius: .5rem
     
     #leaderboard .content-wrapper > div[style*="gridTemplateColumns"]:last-of-type .card-title {
         font-size: 0.85rem !important;
-        marginBottom: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
     }
     
     #leaderboard .content-wrapper > div[style*="gridTemplateColumns"]:last-of-type ul {
         font-size: 0.8rem !important;
-        lineHeight: 1.5 !important;
+        line-height: 1.5 !important;
     }
     
     #leaderboard .content-wrapper > div[style*="gridTemplateColumns"]:last-of-type li {
-        marginBottom: 0.3rem !important;
+        margin-bottom: 0.3rem !important;
     }
 }
 
