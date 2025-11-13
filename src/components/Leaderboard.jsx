@@ -6,6 +6,7 @@ const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [lastUpdate, setLastUpdate] = useState(null)
 
   // Форматирование чисел с разделителями
   const formatNumber = (num) => {
@@ -89,6 +90,7 @@ const Leaderboard = () => {
           console.warn('⚠️ Лидерборд пустой! Проверьте формат данных.')
         }
         setLeaderboard(leaderboardData)
+        setLastUpdate(new Date())
       } catch (err) {
         console.error('❌ Ошибка при получении лидерборда:', err)
         setError(err.message)
@@ -113,6 +115,50 @@ const Leaderboard = () => {
         <div className="content-wrapper">
           <h3>Compete with Top Miners and Climb the Rankings</h3>
           <p>See where you stand among the best players in the game and compete for monthly rewards.</p>
+          
+          {/* Статистика */}
+          {!loading && !error && leaderboard.length > 0 && (
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+              gap: '1rem', 
+              marginBottom: '2rem',
+              marginTop: '2rem'
+            }}>
+              <div className="feature-card" style={{ padding: '1.5rem' }}>
+                <span className="glow"></span>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--skin-color)', marginBottom: '0.5rem' }}>
+                  {leaderboard.length}
+                </div>
+                <div style={{ color: 'var(--text-color)', opacity: 0.8 }}>Top Miners</div>
+              </div>
+              <div className="feature-card" style={{ padding: '1.5rem' }}>
+                <span className="glow"></span>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--skin-color)', marginBottom: '0.5rem' }}>
+                  {formatNumber(leaderboard.reduce((sum, p) => sum + (p.asic_count || 0), 0))}
+                </div>
+                <div style={{ color: 'var(--text-color)', opacity: 0.8 }}>Total ASICs</div>
+              </div>
+              <div className="feature-card" style={{ padding: '1.5rem' }}>
+                <span className="glow"></span>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--skin-color)', marginBottom: '0.5rem' }}>
+                  {formatNumber(Math.round(leaderboard.reduce((sum, p) => sum + (p.th || 0), 0) / leaderboard.length))}
+                </div>
+                <div style={{ color: 'var(--text-color)', opacity: 0.8 }}>Avg Hashrate (Th/s)</div>
+              </div>
+              {lastUpdate && (
+                <div className="feature-card" style={{ padding: '1.5rem' }}>
+                  <span className="glow"></span>
+                  <div style={{ fontSize: '0.9rem', color: 'var(--text-color)', opacity: 0.8, marginBottom: '0.5rem' }}>
+                    Last Update
+                  </div>
+                  <div style={{ fontSize: '1rem', fontWeight: 'bold', color: 'var(--title-color)' }}>
+                    {lastUpdate.toLocaleTimeString()}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           
           {/* Таблица лидерборда */}
           {loading && (
@@ -160,6 +206,16 @@ const Leaderboard = () => {
                   />
                   TOP 10 Miners by Hashrate
                 </h4>
+                {lastUpdate && (
+                  <div style={{ 
+                    fontSize: '0.85rem', 
+                    color: 'var(--text-color)', 
+                    opacity: 0.7,
+                    marginTop: '0.5rem'
+                  }}>
+                    Updated: {lastUpdate.toLocaleString()}
+                  </div>
+                )}
                 <table style={{ 
                   width: '100%', 
                   borderCollapse: 'collapse',
@@ -177,30 +233,88 @@ const Leaderboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {leaderboard.map((player, index) => (
-                      <tr 
-                        key={index}
-                        style={{ 
-                          borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                          transition: 'background 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 111, 0, 0.05)'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                      >
-                        <td style={{ padding: '1rem', fontWeight: 'bold', color: 'var(--skin-color)' }}>
-                          #{player.rank}
-                        </td>
-                        <td style={{ padding: '1rem' }}>
-                          {player.username || 'Unknown'}
-                        </td>
-                        <td style={{ padding: '1rem', textAlign: 'right' }}>
-                          {formatNumber(player.asic_count || 0)}
-                        </td>
-                        <td style={{ padding: '1rem', textAlign: 'right', fontWeight: 'bold', color: 'var(--skin-color)' }}>
-                          {formatNumber(player.th || 0)}
-                        </td>
-                      </tr>
-                    ))}
+                    {leaderboard.map((player, index) => {
+                      // Определяем цвет медали для топ-3
+                      const getMedalColor = (rank) => {
+                        if (rank === 1) return '#FFD700' // Золото
+                        if (rank === 2) return '#C0C0C0' // Серебро
+                        if (rank === 3) return '#CD7F32' // Бронза
+                        return null
+                      }
+                      
+                      const medalColor = getMedalColor(player.rank)
+                      const isTopThree = player.rank <= 3
+                      
+                      return (
+                        <tr 
+                          key={index}
+                          style={{ 
+                            borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                            transition: 'background 0.2s ease',
+                            background: isTopThree ? `linear-gradient(90deg, ${medalColor}15 0%, transparent 100%)` : 'transparent'
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.background = isTopThree 
+                            ? `linear-gradient(90deg, ${medalColor}25 0%, rgba(255, 111, 0, 0.1) 100%)`
+                            : 'rgba(255, 111, 0, 0.05)'}
+                          onMouseLeave={(e) => e.currentTarget.style.background = isTopThree 
+                            ? `linear-gradient(90deg, ${medalColor}15 0%, transparent 100%)`
+                            : 'transparent'}
+                        >
+                          <td style={{ padding: '1rem', fontWeight: 'bold', color: medalColor || 'var(--skin-color)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              {isTopThree && (
+                                <span style={{ fontSize: '1.2rem' }}>
+                                  {player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : '🥉'}
+                                </span>
+                              )}
+                              #{player.rank}
+                            </div>
+                          </td>
+                          <td style={{ padding: '1rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                              {player.avatar_url ? (
+                                <img 
+                                  src={player.avatar_url} 
+                                  alt={player.username}
+                                  style={{
+                                    width: '32px',
+                                    height: '32px',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover',
+                                    border: isTopThree ? `2px solid ${medalColor}` : '2px solid rgba(255, 111, 0, 0.3)'
+                                  }}
+                                />
+                              ) : (
+                                <div style={{
+                                  width: '32px',
+                                  height: '32px',
+                                  borderRadius: '50%',
+                                  background: 'rgba(255, 111, 0, 0.2)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '0.9rem',
+                                  fontWeight: 'bold',
+                                  color: 'var(--skin-color)',
+                                  border: isTopThree ? `2px solid ${medalColor}` : '2px solid rgba(255, 111, 0, 0.3)'
+                                }}>
+                                  {(player.username || 'U')[0].toUpperCase()}
+                                </div>
+                              )}
+                              <span style={{ fontWeight: isTopThree ? 'bold' : 'normal' }}>
+                                {player.username || 'Unknown'}
+                              </span>
+                            </div>
+                          </td>
+                          <td style={{ padding: '1rem', textAlign: 'right' }}>
+                            {formatNumber(player.asic_count || 0)}
+                          </td>
+                          <td style={{ padding: '1rem', textAlign: 'right', fontWeight: 'bold', color: medalColor || 'var(--skin-color)' }}>
+                            {formatNumber(player.th || 0)}
+                          </td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>
