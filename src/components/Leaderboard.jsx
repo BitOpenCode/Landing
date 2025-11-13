@@ -228,8 +228,14 @@ const Leaderboard = () => {
                     Updated: {lastUpdate.toLocaleString()}
                   </div>
                 )}
+                <div style={{ 
+                  overflowX: 'auto',
+                  WebkitOverflowScrolling: 'touch',
+                  width: '100%'
+                }}>
                 <table style={{ 
                   width: '100%', 
+                  minWidth: '600px',
                   borderCollapse: 'collapse',
                   color: 'var(--text-color)'
                 }}>
@@ -381,6 +387,7 @@ const Leaderboard = () => {
                     })}
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
           )}
