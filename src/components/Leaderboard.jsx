@@ -322,10 +322,9 @@ const Leaderboard = () => {
                   overflowX: 'auto',
                   WebkitOverflowScrolling: 'touch',
                   width: '100%'
-                }}>
+                }} className="leaderboard-table-wrapper">
                 <table style={{ 
                   width: '100%', 
-                  minWidth: '600px',
                   borderCollapse: 'collapse',
                   color: 'var(--text-color)'
                 }}>

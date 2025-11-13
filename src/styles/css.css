@@ -4984,10 +4984,22 @@ textarea.input { padding: 0.8rem 1.2rem; min-height: 140px; border-radius: .5rem
 }
 
 /* Адаптивные стили для Leaderboard */
+/* Убираем горизонтальный скролл на широких экранах */
+.leaderboard-table-wrapper {
+    overflow-x: visible;
+}
+
 @media screen and (max-width: 768px) {
+    /* Включаем горизонтальный скролл только на мобильных */
+    .leaderboard-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
     /* Таблица лидерборда */
     #leaderboard table {
         font-size: 0.85rem;
+        min-width: 600px;
     }
     
     #leaderboard table th,
