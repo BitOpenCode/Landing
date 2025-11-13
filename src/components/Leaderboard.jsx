@@ -357,29 +357,33 @@ const Leaderboard = () => {
                               <span style={{ fontWeight: 'bold', color: medalColor || 'var(--skin-color)' }}>
                                 {formatNumber(player.th || 0)}
                               </span>
-                              {/* Прогресс-бар */}
-                              <div style={{
-                                width: '100px',
-                                height: '4px',
-                                background: 'rgba(255, 255, 255, 0.1)',
-                                borderRadius: '2px',
-                                overflow: 'hidden',
-                                position: 'relative'
-                              }}>
-                                <div style={{
-                                  width: `${percentageFromTop}%`,
-                                  height: '100%',
-                                  background: isTopThree 
-                                    ? `linear-gradient(90deg, ${medalColor}, ${medalColor}80)`
-                                    : 'linear-gradient(90deg, var(--skin-color), rgba(255, 111, 0, 0.6))',
-                                  borderRadius: '2px',
-                                  transition: 'width 0.5s ease',
-                                  boxShadow: isTopThree ? `0 0 8px ${medalColor}60` : '0 0 4px rgba(255, 111, 0, 0.4)'
-                                }}></div>
-                              </div>
-                              <span style={{ fontSize: '0.75rem', opacity: 0.7, color: 'var(--text-color)' }}>
-                                {percentageFromTop}% от лидера
-                              </span>
+                              {/* Прогресс-бар и процент - не показываем для первого места */}
+                              {player.rank !== 1 && (
+                                <>
+                                  <div style={{
+                                    width: '100px',
+                                    height: '4px',
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    borderRadius: '2px',
+                                    overflow: 'hidden',
+                                    position: 'relative'
+                                  }}>
+                                    <div style={{
+                                      width: `${percentageFromTop}%`,
+                                      height: '100%',
+                                      background: isTopThree 
+                                        ? `linear-gradient(90deg, ${medalColor}, ${medalColor}80)`
+                                        : 'linear-gradient(90deg, var(--skin-color), rgba(255, 111, 0, 0.6))',
+                                      borderRadius: '2px',
+                                      transition: 'width 0.5s ease',
+                                      boxShadow: isTopThree ? `0 0 8px ${medalColor}60` : '0 0 4px rgba(255, 111, 0, 0.4)'
+                                    }}></div>
+                                  </div>
+                                  <span style={{ fontSize: '0.75rem', opacity: 0.7, color: 'var(--text-color)' }}>
+                                    {percentageFromTop}% от лидера
+                                  </span>
+                                </>
+                              )}
                             </div>
                           </td>
                         </tr>
